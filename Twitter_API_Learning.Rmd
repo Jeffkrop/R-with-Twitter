@@ -26,7 +26,43 @@ twitter_token <- create_token( app = appname,
 Getting data from twitter and adding to new data frame.  
 ```{r}
 df1 <- search_tweets("#readmissions", n=250)
+```   
+   
+Looking at tweets generated over time   
+```{r}
+hist(df1$created_at, breaks=100, freq=TRUE)
+df1_sorted <- arrange(df1, created_at)
+diffs1 <- diff(df1_sorted$created_at)
+diffs1 <- as.numeric(diffs1)
+hist(diffs1, breaks=100, freq=TRUE)
+```   
+   
+Looking at differant  searches   
+```{r}
+df2 <- search_tweets("#asthma", n=500)
+df3 <- search_tweets("#diabetes", n=500)
+
+hist(df2$created, breaks=60, freq=TRUE)
+hist(df3$created, breaks=60, freq=TRUE)
+df2_sorted <- arrange(df2, created_at)
+df3_sorted <- arrange(df3, created_at)
+diffs2 <- diff(df2_sorted$created_at)
+diffs2 <- as.numeric(diffs2)
+diffs3 <- diff(df3_sorted$created_at)
+diffs3 <- as.numeric(diffs3)
+
+hist(diffs2, breaks=100, freq=TRUE)
+hist(diffs3, breaks=100, freq=TRUE)
+mean1 <- mean(diffs2)
+lessthanmean2 <- sum(diffs2 <= mean1)
+mean2 <- mean(diffs3)
+lessthanmean3 <- sum(diffs3 <= mean2)
+poisson.test(c(lessthanmean3, lessthanmean2),
+             c(nrow(df3_sorted), nrow(df2_sorted)))
 ```
+
+
+
 
 
 
