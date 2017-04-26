@@ -8,8 +8,17 @@ output: html_document
 In this R markdown I will be learning to use the twitter API and running some tests. I am doing this for a class at the University of Minnesota: Health	Data Analytics and Data Science.    
    
    
-```{r}
+```{r, warning=FALSE, message=FALSE}
+install.packages("twitteR")
 library("rtweet") #package for getting data from twitter. 
 library("dplyr")
+```   
+   
+```{r}
+# appname, consumer_key, consumer_secret created in a different R script so that they are not shared with the world. 
+twitter_token <- create_token( app = appname,
+    consumer_key = consumer_key,
+    consumer_secret = consumer_secret)
 ```
+
 
