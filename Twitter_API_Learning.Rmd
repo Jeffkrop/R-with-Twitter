@@ -1,0 +1,15 @@
+---
+title: "Twitter_API_With_R"
+author: "Jeff Kropelnicki"
+date: "4/26/2017"
+output: html_document
+---
+
+In this R markdown I will be learning to use the twitter API and running some tests. I am doing this for a class at the University of Minnesota: Health	Data Analytics and Data Science.    
+   
+   
+```{r}
+library("rtweet") #package for getting data from twitter. 
+library("dplyr")
+```
+
