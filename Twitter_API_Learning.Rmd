@@ -2,23 +2,31 @@
 title: "Twitter_API_With_R"
 author: "Jeff Kropelnicki"
 date: "4/26/2017"
-output: html_document
+output: github_document
 ---
 
 In this R markdown I will be learning to use the twitter API and running some tests. I am doing this for a class at the University of Minnesota: Health	Data Analytics and Data Science.    
    
    
 ```{r, warning=FALSE, message=FALSE}
-install.packages("twitteR")
 library("rtweet") #package for getting data from twitter. 
 library("dplyr")
 ```   
    
+      
+Creating a token
 ```{r}
 # appname, consumer_key, consumer_secret created in a different R script so that they are not shared with the world. 
+
 twitter_token <- create_token( app = appname,
     consumer_key = consumer_key,
     consumer_secret = consumer_secret)
+```   
+   
+Getting data from twitter and adding to new data frame.  
+```{r}
+df1 <- search_tweets("#readmissions", n=250)
 ```
+
 
 
