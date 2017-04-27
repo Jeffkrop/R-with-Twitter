@@ -9,14 +9,17 @@ In this R markdown I will be learning to use the twitter API and running some te
    
    
 ```{r, warning=FALSE, message=FALSE}
+install.packages("httpuv")
 library("rtweet") #package for getting data from twitter. 
 library("dplyr")
 ```   
    
       
 Creating a token
-```{r}
-# appname, consumer_key, consumer_secret created in a different R script so that they are not shared with the world. 
+```{r, message=FALSE}
+# appname, consumer_key, consumer_secret created in a different R script so that they are not shared with the world.
+
+#https://apps.twitter.com/app/13722867/keys
 
 twitter_token <- create_token( app = appname,
     consumer_key = consumer_key,
@@ -25,41 +28,21 @@ twitter_token <- create_token( app = appname,
    
 Getting data from twitter and adding to new data frame.  
 ```{r}
-df1 <- search_tweets("#readmissions", n=250)
-```   
-   
-Looking at tweets generated over time   
-```{r}
-hist(df1$created_at, breaks=100, freq=TRUE)
-df1_sorted <- arrange(df1, created_at)
-diffs1 <- diff(df1_sorted$created_at)
-diffs1 <- as.numeric(diffs1)
-hist(diffs1, breaks=100, freq=TRUE)
-```   
-   
-Looking at differant  searches   
-```{r}
-df2 <- search_tweets("#asthma", n=500)
-df3 <- search_tweets("#diabetes", n=500)
+rstats <- search_tweets("#rstats", n=1000)
+names(rstats)
 
-hist(df2$created, breaks=60, freq=TRUE)
-hist(df3$created, breaks=60, freq=TRUE)
-df2_sorted <- arrange(df2, created_at)
-df3_sorted <- arrange(df3, created_at)
-diffs2 <- diff(df2_sorted$created_at)
-diffs2 <- as.numeric(diffs2)
-diffs3 <- diff(df3_sorted$created_at)
-diffs3 <- as.numeric(diffs3)
-
-hist(diffs2, breaks=100, freq=TRUE)
-hist(diffs3, breaks=100, freq=TRUE)
-mean1 <- mean(diffs2)
-lessthanmean2 <- sum(diffs2 <= mean1)
-mean2 <- mean(diffs3)
-lessthanmean3 <- sum(diffs3 <= mean2)
-poisson.test(c(lessthanmean3, lessthanmean2),
-             c(nrow(df3_sorted), nrow(df2_sorted)))
+hist(rstats$created_at, breaks=60, freq=TRUE) 
+```   
+Looking at the histagram it is interesting to see that the hashtag is being used all day, I returned 982 tweets with the hashtag rstats in just over 24 hours.    
+   
+Who is using the hashtag?   
+```{r}
+who <- rstats %>% group_by(screen_name) %>% summarise(count = n()) %>% arrange(desc(count))
 ```
+
+   
+
+
 
 
 
